@@ -29,7 +29,7 @@ namespace eWAY.Rapid.Tests.UnitTests
             var transaction = TestUtil.CreateTransaction();
             var mockClient = new Mock<RapidService>(APIKEY, PASSWORD, ENDPOINT);
             var we = new WebException("MockException", null, WebExceptionStatus.ProtocolError, wr.Object);
-            mockClient.Setup(x => x.GetWebResponse(It.IsAny<WebRequest>(), It.IsAny<string>())).Throws(we);
+            mockClient.Setup(x => x.GetWebResponse(It.IsAny<HttpWebRequest>(), It.IsAny<string>())).Throws(we);
             var client = new RapidClient(mockClient.Object);
             //Act
             var response = client.Create(PaymentMethod.Direct, transaction);
@@ -48,7 +48,7 @@ namespace eWAY.Rapid.Tests.UnitTests
             var transaction = TestUtil.CreateTransaction();
             var mockClient = new Mock<RapidService>(APIKEY, PASSWORD, ENDPOINT);
             var we = new WebException("MockException", null, WebExceptionStatus.ProtocolError, wr.Object);
-            mockClient.Setup(x => x.GetWebResponse(It.IsAny<WebRequest>(), It.IsAny<string>())).Throws(we);
+            mockClient.Setup(x => x.GetWebResponse(It.IsAny<HttpWebRequest>(), It.IsAny<string>())).Throws(we);
             var client = new RapidClient(mockClient.Object);
             //Act
             var response = client.Create(PaymentMethod.Direct, transaction);
