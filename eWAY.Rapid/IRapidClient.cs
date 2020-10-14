@@ -99,7 +99,7 @@ namespace eWAY.Rapid
         /// <summary>
         /// Gets transaction information given an invoice number
         /// </summary>
-        /// <param name="invoiceNumber">Merchant’s Invoice Number for the transaction</param>
+        /// <param name="invoiceNumber">Merchantï¿½s Invoice Number for the transaction</param>
         /// <returns>QueryTransactionResponse</returns>
         QueryTransactionResponse QueryInvoiceNumber(string invoiceNumber);
         /// <summary>
