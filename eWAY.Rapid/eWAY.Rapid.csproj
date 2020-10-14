@@ -56,6 +56,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AfterRequestEvent.cs" />
+    <Compile Include="BeforeRequestEvent.cs" />
     <Compile Include="Enums\BeagleVerifyStatus.cs" />
     <Compile Include="Enums\FilterMatchType.cs" />
     <Compile Include="Enums\FraudAction.cs" />
@@ -162,13 +164,17 @@
     <Compile Include="Models\TransactionStatus.cs" />
     <Compile Include="Models\Verification.cs" />
     <Compile Include="Models\VerificationResult.cs" />
+    <Compile Include="NewRapidClientOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RapidClientFactory.cs" />
     <Compile Include="RapidSystemErrorCode.cs" />
     <Compile Include="SystemConstants.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="eWAY.Rapid.GitHub.snk" />
+    <None Include="..\eWAY.Rapid.GitHub.snk">
+      <Link>eWAY.Rapid.GitHub.snk</Link>
+    </None>
+    <None Include=".editorconfig" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

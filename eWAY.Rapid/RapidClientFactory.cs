@@ -6,6 +6,8 @@ using eWAY.Rapid.Internals.Services;
 
 namespace eWAY.Rapid
 {
+
+
     /// <summary>
     /// Factory class to create an instance of IRapidSdkClient
     /// </summary>
@@ -21,6 +23,16 @@ namespace eWAY.Rapid
         public static IRapidClient NewRapidClient(string apiKey, string password, string rapidEndpoint)
         {
             return new RapidClient(new RapidService(apiKey, password, rapidEndpoint));
+        }
+
+        /// <summary>
+        /// Static method to create a new Rapid SDK Client configured to communicate with eWAY's Rapid API
+        /// </summary>
+        /// <param name="options">Options for the API.</param>
+        /// <returns>Native class/object that can be used to create and access business objects such as customers and transactions. </returns>
+        public static IRapidClient NewRapidClient(NewRapidClientOptions options)
+        {
+            return new RapidClient(new RapidService(options));
         }
 
         /// <summary>

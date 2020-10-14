@@ -38,13 +38,24 @@ namespace eWAY.Rapid.Internals.Services
 
 
         public IMappingService MappingService { get; set; }
-        
+
+        public Action<BeforeRequestEvent> BeforeRequest { get; set; }
+        public Action<AfterRequestEvent> AfterRequest { get; set; }
+
+
         public RapidService(string apiKey, string password, string endpoint)
         {
             SetCredentials(apiKey, password);
             SetRapidEndpoint(endpoint);
         }
 
+        public RapidService(NewRapidClientOptions options)
+        {
+            SetCredentials(options.ApiKey, options.Password);
+            SetRapidEndpoint(options.RapidEndpoint);
+            BeforeRequest = options.BeforeRequest;
+            AfterRequest = options.AfterRequest;
+        }
 
         public DirectCancelAuthorisationResponse CancelAuthorisation(DirectCancelAuthorisationRequest request)
         {
@@ -152,7 +163,7 @@ namespace eWAY.Rapid.Internals.Services
                 new JsonSerializerSettings()
                 {
                     NullValueHandling = NullValueHandling.Ignore,
-                    Converters = new JsonConverter[] {new StringEnumConverter()}
+                    Converters = new JsonConverter[] { new StringEnumConverter() }
                 });
 
             // Store the default protocol and force TLS 1.2
@@ -167,7 +178,7 @@ namespace eWAY.Rapid.Internals.Services
             {
                 AddHeaders(webRequest, HttpMethods.POST.ToString());
                 webRequest.ContentLength = Encoding.UTF8.GetByteCount(jsonString);
-                var result = GetWebResponse(webRequest, jsonString);
+                string result = GetWebResponse(webRequest, jsonString);
                 response = JsonConvert.DeserializeObject<TResponse>(result);
             }
             catch (WebException ex)
@@ -287,21 +298,25 @@ namespace eWAY.Rapid.Internals.Services
             return RapidSystemErrorCode.COMMUNICATION_ERROR;
         }
 
-        public virtual string GetWebResponse(WebRequest webRequest, string content = null)
+        public virtual string GetWebResponse(HttpWebRequest webRequest, string content = null)
         {
             if (content != null)
             {
-                using (new MemoryStream())
+                using (var writer = new StreamWriter(webRequest.GetRequestStream()))
                 {
-                    using (var writer = new StreamWriter(webRequest.GetRequestStream()))
-                    {
-                        writer.Write(content);
-                        writer.Close();
-                    }
+                    writer.Write(content);
+                    writer.Close();
                 }
             }
 
             string result;
+            object userData = null;
+            if (BeforeRequest != null)
+            {
+                var arg = new BeforeRequestEvent(webRequest, content);
+                BeforeRequest(arg);
+                userData = arg.UserData;
+            }
             var webResponse = (HttpWebResponse)webRequest.GetResponse();
             using (var stream = webResponse.GetResponseStream())
             {
@@ -310,6 +325,12 @@ namespace eWAY.Rapid.Internals.Services
                 result = sr.ReadToEnd();
                 sr.Close();
             }
+            if (AfterRequest != null)
+            {
+                var arg = new AfterRequestEvent(webRequest, content, webResponse, result, userData);
+                AfterRequest(arg);
+            }
+
             return result;
         }
 
