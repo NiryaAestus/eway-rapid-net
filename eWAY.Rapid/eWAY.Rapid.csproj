@@ -13,7 +13,13 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>eway_32-32.png</PackageIcon>
     <RepositoryUrl>https://github.com/NiryaAestus/eway-rapid-net</RepositoryUrl>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\eWAY.Rapid.GitHub.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(AssemblyOriginatorKeyFile)" Link="eWAY.Rapid.GitHub.snk" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
