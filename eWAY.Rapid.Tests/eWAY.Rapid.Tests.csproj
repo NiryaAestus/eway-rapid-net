@@ -85,8 +85,10 @@
     <Compile Include="UnitTests\MiscTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\eWAY.Rapid.GitHub.snk">
+      <Link>eWAY.Rapid.GitHub.snk</Link>
+    </None>
     <None Include="App.config" />
-    <None Include="eWAY.Rapid.GitHub.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
