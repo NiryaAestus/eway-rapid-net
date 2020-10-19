@@ -19,6 +19,10 @@
 
   <ItemGroup>
     <None Include="$(AssemblyOriginatorKeyFile)" Link="eWAY.Rapid.GitHub.snk" />
+    <Content Include="eway_32-32.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

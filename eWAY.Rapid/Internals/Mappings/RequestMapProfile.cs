@@ -11,6 +11,9 @@ namespace eWAY.Rapid.Internals.Mappings {
             AllowNullCollections = true;
             AllowNullDestinationValues = true;
 
+            CreateMap<eWAY.Rapid.Models.BaseResponse, eWAY.Rapid.Internals.Response.BaseResponse>(MemberList.None)
+                .ForMember(dest => dest.Errors, opt => opt.MapFrom(src => src.Errors));
+
             CreateMap<Transaction, DirectPaymentRequest>(MemberList.None)
                 .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.LineItems))
                 .ForMember(dest => dest.ShippingAddress, opt => opt.MapFrom(src => src.ShippingDetails))

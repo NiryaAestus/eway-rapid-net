@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using eWAY.Rapid.Models;
 using Option = eWAY.Rapid.Internals.Models.Option;
@@ -9,6 +10,7 @@ namespace eWAY.Rapid.Internals.Mappings {
             CreateMap<String, Option>(MemberList.None).ConvertUsing(s => new Option { Value = s });
             CreateMap<Option, String>(MemberList.None).ConvertUsing(o => o.Value);
             CreateMap<bool?, TransactionStatus>(MemberList.None).AfterMap((b, t) => t.Status = b);
+            CreateMap<string, List<string>>(MemberList.None).ConvertUsing(s => new List<string> { s });
         }
     }
 }
